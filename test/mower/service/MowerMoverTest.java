@@ -25,7 +25,7 @@ public class MowerMoverTest {
 		mower = new Mower("1 2 N");
 		
 		mowerMover.move(lawn, mower, "LFLFLFLFF");
-		assertThat(mower.getPosition(), is("1 3 N"));
+		assertThat(mower.toString(), is("1 3 N"));
 	}
 	
 	@Test
@@ -34,6 +34,7 @@ public class MowerMoverTest {
 		mower = new Mower("3 3 E");
 		
 		mowerMover.move(lawn, mower, "FFRFFRFRRF");
-		assertThat(mower.getPosition(), is("5 1 E"));
+		assertThat(mower.toString(), is("5 1 E"));
 	}
+	
 }

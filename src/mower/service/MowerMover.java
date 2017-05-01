@@ -1,7 +1,10 @@
 package mower.service;
 
+import static java.lang.String.format;
+
 import mower.model.Lawn;
 import mower.model.Mower;
+import mower.model.Position;
 
 public class MowerMover {
 	
@@ -9,40 +12,34 @@ public class MowerMover {
 		for(String command: commands.split("")) {
 			switch (command) {
 			case "L":
+				mower.setOrientation(mower.getOrientation().left());
+				break;
 			case "R":
-				mower.setOrientation(command);
+				mower.setOrientation(mower.getOrientation().right());
 				break;
 			case "F":
 				move(lawn, mower);
 				break;
 			default:
-				throw new IllegalStateException();
+				throw new UnsupportedOperationException(format("Such command '%s' isn't implemented !", command));
 			}
 		}
 	}
 	
+	private Position determineNewPosition(Mower mower) {
+		Position newPosition = new Position(mower.getPosition());
+		mower.getOrientation().move(newPosition);
+		return newPosition;
+	}
+	
+	private boolean isPositionOk(Lawn lawn, Position position) {
+		return lawn.isValueInsideWidth(position.getX()) && lawn.isValueInsideHeight(position.getY());
+	}
+	
 	private void move(Lawn lawn, Mower mower) {
-		switch (mower.getOrientation()) {
-		case N:
-			if(mower.getY() + 1 <= lawn.getHeight()) {
-				mower.moveY(1);
-			}
-			break;
-		case S:
-			if(mower.getY() - 1 > 0) {
-				mower.moveY(-1);
-			}
-			break;
-		case E:
-			if(mower.getX() + 1 >= lawn.getWidth()) {
-				mower.moveX(1);
-			}
-			break;
-		case W:
-			if(mower.getX() - 1 > 0) {
-				mower.moveX(-1);
-			}
-			break;
+		Position position = determineNewPosition(mower);
+		if(isPositionOk(lawn, position)) {
+			mower.setPosition(position);
 		}
 	}
 }
