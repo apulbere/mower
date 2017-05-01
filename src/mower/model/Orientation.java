@@ -1,28 +1,43 @@
 package mower.model;
 
+import java.util.function.Consumer;
+
+import mower.behaviour.Incrementor;
+
 public enum Orientation {
 	N, S, W, E;
-
-	public static Orientation right(Orientation orientation) {
-		switch(orientation) {
-			case N: return E;
-			case E: return S;
-			case S: return W;
-			case W: return N;
-			default:
-				throw new IllegalStateException();
-		}
-
+	
+	private Orientation left;
+	private Orientation right;
+	private Consumer<Incrementor> consumer;
+	
+	static {
+		N.left = W;
+		N.right = E;
+		N.consumer = incrementor -> incrementor.addToY(1);
+		
+		S.left = E;
+		S.right = W;
+		S.consumer = incrementor -> incrementor.addToY(-1);
+		
+		W.left = S;
+		W.right = N;
+		W.consumer = incrementor -> incrementor.addToX(-1);
+		
+		E.left = N;
+		E.right = S;
+		E.consumer = incrementor -> incrementor.addToX(1);
+	}
+	
+	public void move(Incrementor incrementor) {
+		consumer.accept(incrementor);
+	}
+	
+	public Orientation right() {
+		return right;
 	}
 
-	public static Orientation left(Orientation orientation) {
-		switch(orientation) {
-			case N: return W;
-			case W: return S;
-			case S: return E;
-			case E: return N;
-			default:
-				throw new IllegalStateException();
-		}
+	public Orientation left() {
+		return left;
 	}
 }
