@@ -10,8 +10,6 @@ import mower.model.Lawn;
 import mower.model.Mower;
 
 public class MowerMoverTest {
-	private Lawn lawn;
-	private Mower mower;
 	private MowerMover mowerMover;
 
 	@Before
@@ -21,20 +19,45 @@ public class MowerMoverTest {
 
 	@Test
 	public void test1() {
-		lawn = new Lawn("5 5");
-		mower = new Mower("1 2 N");
+		Lawn lawn = new Lawn("5 5");
+		Mower mower = new Mower("1 2 N");
 		
 		mowerMover.move(lawn, mower, "LFLFLFLFF");
-		assertThat(mower.toString(), is("1 3 N"));
+		assertThat(mower.getFormatedPosition(), is("1 3 N"));
 	}
 	
 	@Test
 	public void test2() {
-		lawn = new Lawn("5 5");
-		mower = new Mower("3 3 E");
+		Lawn lawn = new Lawn("5 5");
+		Mower mower = new Mower("3 3 E");
 		
 		mowerMover.move(lawn, mower, "FFRFFRFRRF");
-		assertThat(mower.toString(), is("5 1 E"));
+		assertThat(mower.getFormatedPosition(), is("5 1 E"));
 	}
 	
+	@Test
+	public void nextMowerStartsFromPreviousMowerStopPosition() {
+		Lawn lawn = new Lawn("2 2");
+		Mower first = new Mower("0 0 N");
+		
+		mowerMover.move(lawn, first, "FF");
+		assertThat(first.getFormatedPosition(), is("0 2 N"));
+		
+		Mower second = new Mower("0 2 E");
+		mowerMover.move(lawn, second, "FF");
+		assertThat(second.getFormatedPosition(), is("0 2 E"));
+	}
+	
+	@Test
+	public void nextMowerEncountersAnObstacle() {
+		Lawn lawn = new Lawn("2 2");
+		Mower first = new Mower("0 0 N");
+		
+		mowerMover.move(lawn, first, "F");
+		assertThat(first.getFormatedPosition(), is("0 1 N"));
+		
+		Mower second = new Mower("0 0 N");
+		mowerMover.move(lawn, second, "FFRF");
+		assertThat(second.getFormatedPosition(), is("1 0 E"));
+	}
 }

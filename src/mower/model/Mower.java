@@ -28,8 +28,7 @@ public class Mower {
 		this.orientation = orientation;
 	}
 	
-	@Override
-	public String toString() {
-		return format("%s %s", position, orientation.name());
+	public String getFormatedPosition() {
+		return format("%s %s", position.getFormatedPosition(), orientation.name());
 	}
 }

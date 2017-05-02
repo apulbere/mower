@@ -9,6 +9,8 @@ import mower.model.Position;
 public class MowerMover {
 	
 	public void move(Lawn lawn, Mower mower, String commands) {
+		if(!lawn.isFreeFor(mower.getPosition())) return;
+		
 		for(String command: commands.split("")) {
 			switch (command) {
 			case "L":
@@ -24,6 +26,8 @@ public class MowerMover {
 				throw new UnsupportedOperationException(format("Such command '%s' isn't implemented !", command));
 			}
 		}
+		
+		lawn.addObstacle(mower.getPosition());
 	}
 	
 	private Position determineNewPosition(Mower mower) {
@@ -33,7 +37,9 @@ public class MowerMover {
 	}
 	
 	private boolean isPositionOk(Lawn lawn, Position position) {
-		return lawn.isValueInsideWidth(position.getX()) && lawn.isValueInsideHeight(position.getY());
+		return lawn.isValueInsideWidth(position.getX()) 
+				&& lawn.isValueInsideHeight(position.getY())
+				&& lawn.isFreeFor(position);
 	}
 	
 	private void move(Lawn lawn, Mower mower) {
