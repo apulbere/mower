@@ -3,11 +3,10 @@ package mower.model;
 public class Lawn {
 	private int width;
 	private int height;
-	
-	public Lawn(String rawLine) {
-		String[] arr = rawLine.split(" ");
-		width = Integer.valueOf(arr[0]);
-		height = Integer.valueOf(arr[1]);
+
+	public Lawn(int width, int height) {
+		this.width = width;
+		this.height = height;
 	}
 	
 	public boolean isValueInsideWidth(int value) {

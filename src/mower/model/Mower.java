@@ -6,10 +6,9 @@ public class Mower {
 	private Orientation orientation;
 	private Position position;
 	
-	public Mower(String rawLine) {
-		String[] arr = rawLine.split(" ");
-		this.position = new Position(Integer.valueOf(arr[0]), Integer.valueOf(arr[1]));
-		this.orientation = Orientation.valueOf(arr[2]);
+	public Mower(Position position, Orientation orientation) {
+		this.position = position;
+		this.orientation = orientation;
 	}
 	
 	public void setPosition(Position position) {

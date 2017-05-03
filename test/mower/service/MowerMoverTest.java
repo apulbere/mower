@@ -8,10 +8,10 @@ import org.junit.Test;
 
 import mower.model.Lawn;
 import mower.model.Mower;
+import mower.model.Orientation;
+import mower.model.Position;
 
 public class MowerMoverTest {
-	private Lawn lawn;
-	private Mower mower;
 	private MowerMover mowerMover;
 
 	@Before
@@ -21,8 +21,8 @@ public class MowerMoverTest {
 
 	@Test
 	public void test1() {
-		lawn = new Lawn("5 5");
-		mower = new Mower("1 2 N");
+		Lawn lawn = new Lawn(5, 5);
+		Mower mower = new Mower(new Position(1, 2), Orientation.N);
 		
 		mowerMover.move(lawn, mower, "LFLFLFLFF");
 		assertThat(mower.toString(), is("1 3 N"));
@@ -30,8 +30,8 @@ public class MowerMoverTest {
 	
 	@Test
 	public void test2() {
-		lawn = new Lawn("5 5");
-		mower = new Mower("3 3 E");
+		Lawn lawn = new Lawn(5, 5);
+		Mower mower = new Mower(new Position(3, 3), Orientation.E);
 		
 		mowerMover.move(lawn, mower, "FFRFFRFRRF");
 		assertThat(mower.toString(), is("5 1 E"));
