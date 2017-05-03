@@ -8,10 +8,9 @@ public class Lawn {
 	private int height;
 	private Set<Position> obstacles;
 	
-	public Lawn(String rawLine) {
-		String[] arr = rawLine.split(" ");
-		width = Integer.valueOf(arr[0]);
-		height = Integer.valueOf(arr[1]);
+	public Lawn(int width, int height) {
+		this.width = width;
+		this.height = height;
 		obstacles = new HashSet<>();
 	}
 	
